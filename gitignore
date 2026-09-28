@@ -1,0 +1,51 @@
+# ===== Model weights & checkpoints =====
+# Hosted on Hugging Face (see README) — not tracked in git
+*.pt
+*.pth
+*.ckpt
+checkpoints/
+
+# ===== Dataset =====
+# NIH ChestX-ray14 images/CSVs — download separately, never commit
+data/
+datasets/
+*.csv
+!outputs/*.csv
+images_*/
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ===== Virtual environments =====
+venv/
+.venv/
+env/
+ENV/
+
+# ===== Credentials / secrets =====
+kaggle.json
+.env
+*.token
+
+# ===== Editor / IDE =====
+.vscode/
+.idea/
+*.swp
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs & misc =====
+*.log
+.cache/
