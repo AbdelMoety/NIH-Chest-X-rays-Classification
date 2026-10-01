@@ -72,8 +72,6 @@ The final checkpoint is evaluated once on the held-out NIH test set (never used 
 
 **Summary:** Macro AUROC **0.7732** · Macro AUPRC **0.2315** · Macro F1 (tuned) **0.2865** · Macro F1 (0.5 threshold) **0.2490**
 
-*(Full per-class results at both threshold settings are saved as CSVs during evaluation — see [Repository Structure](#repository-structure).)*
-
 ### Notes on interpreting the results
 
 - **AUROC vs. AUPRC:** AUROC stays relatively stable (0.67–0.89) across classes regardless of rarity, but AUPRC drops sharply for rare findings (e.g. Hernia: AUROC 0.89 but AUPRC 0.30) because AUPRC's baseline for a random classifier equals class prevalence — Hernia is positive in only 0.34% of test images, so its AUPRC is impressive relative to that baseline even though the absolute number looks unimpressive next to AUROC.
@@ -82,33 +80,28 @@ The final checkpoint is evaluated once on the held-out NIH test set (never used 
 
 ## Repository Structure
 
-> Adjust this section to match your actual repo layout.
-
 ```
 .
 ├── README.md
+├── LICENSE
+├── .gitignore
 ├── requirements.txt
-├── notebooks/
-│   └── nih-x-ray.ipynb          # data prep, training (warm-up + fine-tune), checkpointing
-│   └── nih-x-ray-eval.ipynb     # final-model evaluation (AUROC/AUPRC/Precision/Recall/F1)
-├── outputs/
-│   ├── test_metrics_tuned_thresholds.csv
-│   └── test_metrics_fixed_0.5_threshold.csv
-└── checkpoints/                 # not tracked in git — see Model Weights below
+├── nih-x-ray.ipynb       # data prep, training (warm-up + fine-tune), evaluation, checkpointing
+└── model/                # local only — gitignored; checkpoint hosted on Hugging Face (see below)
 ```
 
 ## Model Weights
 
 The final trained checkpoint is hosted on the Hugging Face Hub (MIT licensed, same as this repo):
 
-**[TODO: paste Hugging Face model link here]**
+**[Download the model checkpoint](https://huggingface.co/AbdelMoety1/nih-chest-xray-densenet121/resolve/main/NIH%20Chest%20X-Ray%20model.pt)**
 
 ```python
 from huggingface_hub import hf_hub_download
 import torch
 
 checkpoint_path = hf_hub_download(
-    repo_id="<your-username>/nih-chest-xray-densenet121",  # TODO: update
+    repo_id="AbdelMoety1/nih-chest-xray-densenet121",
     filename="NIH Chest X-Ray model.pt"
 )
 checkpoint = torch.load(checkpoint_path, map_location="cpu")
@@ -156,7 +149,7 @@ tqdm
 **To reproduce evaluation only:**
 1. Run the notebook cells from *Imports* through the `base_model` setup cell (skip the checkpoint/warm-up/training cells).
 2. Point `FINAL_MODEL_PATH` at your trained checkpoint.
-3. Run the evaluation cells — this generates the per-class and macro metrics tables and CSVs above.
+3. Run the evaluation cells — this generates the per-class and macro metrics tables shown above.
 
 ## Limitations & Future Work
 
